@@ -90,7 +90,7 @@ class NetworkClient {
 			var inviteData = Json.parse(message);
 
 			Waiter.putPersist(() -> {
-				Alert.alert(inviteData.name + ' has invited you to their room!', '(Click to Join)', () -> {
+				Alert.alert(inviteData.name + ' 邀请你加入他的房间！', '（点击加入）', () -> {
 					OnlineState.inviteRoomID = inviteData.roomid;
 
 					if (GameClient.isConnected()) {
@@ -110,7 +110,7 @@ class NetworkClient {
 				return;
 
 			Waiter.putPersist(() -> {
-				Alert.alert(player + ' is now online!', null);
+				Alert.alert(player + ' 已上线！', null);
 			});
 		});
 
@@ -119,7 +119,7 @@ class NetworkClient {
 				Sys.println("NetworkRoom.onError: " + code + " - " + e);
 				if (code == 524)
 					return;
-				Alert.alert("Network Room error!", "room.onError: " + ShitUtil.prettyStatus(code) + "\n" + ShitUtil.readableError(e));
+				Alert.alert("网络房间错误！", "房间错误：" + ShitUtil.prettyStatus(code) + "\n" + ShitUtil.readableError(e));
             }, e -> {
 				trace(ShitUtil.prettyError(e));
             });

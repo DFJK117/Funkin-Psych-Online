@@ -87,7 +87,7 @@ class LoadingScreen extends Sprite {
 			loadingTime = 0;
 		if (loadingTime >= 20 && GameClient.isConnected()) { // changed from 10 to 20 for ppl with low end pcs
 			toggle(false);
-			GameClient.leaveRoom("Timed out!");
+			GameClient.leaveRoom("连接超时！");
 			FlxG.switchState(() -> new MainMenuState());
 		}
 

@@ -36,10 +36,10 @@ class VerifyCodeSubstate extends MusicBeatSubstate {
 		add(bg);
 
 		var title = new FlxText(0, 0, FlxG.width, 
-			'A Verification Code may have been sent to this email!\n' + 
-			'Please note, that the server will not tell you if this email is registered!\n' + 
-			'If you can\'t find it, check your spam inbox.\n' + 
-			'Enter it here, if you receive it!'
+			'验证码可能已发送到该邮箱！\n' + 
+			'请注意，服务器不会提示该邮箱是否已注册！\n' + 
+			'如果没收到，请检查垃圾邮件箱。\n' + 
+			'收到验证码后，请在此输入！'
 		);
 		title.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		title.y = FlxG.height / 2 - title.height / 2 - 200;

@@ -26,7 +26,7 @@ class RequestSubstate extends MusicBeatSubstate {
 	var blurFilter:BlurFilter;
 	var coolCam:FlxCamera;
 
-	public static function requestURL(url:String, ?prompt:String = "Do you want to open this link", ?disableTrusting:Bool = false) {
+	public static function requestURL(url:String, ?prompt:String = "是否打开此链接", ?disableTrusting:Bool = false) {
 		request(prompt, url, nowTrusting -> {
 			if (nowTrusting != null) {
 				var splitURL = url.split("//");
@@ -41,7 +41,7 @@ class RequestSubstate extends MusicBeatSubstate {
 		}, null, disableTrusting);
 	}
 
-	public static function requestDownload(url:String, ?prompt:String = "Do you want to download this file", ?onDownloadFinished:String->Void, ?disableTrusting:Bool = false, ?yesCallback:Void->Void) {
+	public static function requestDownload(url:String, ?prompt:String = "是否下载此文件", ?onDownloadFinished:String->Void, ?disableTrusting:Bool = false, ?yesCallback:Void->Void) {
 		request(prompt, url, nowTrusting -> {
 			if (nowTrusting != null) {
 				var splitURL = url.split("//");
@@ -134,7 +134,7 @@ class RequestSubstate extends MusicBeatSubstate {
 		urlText.alpha = 0.8;
 		add(urlText);
 
-		yes = new FlxText(0, 0, 0, "Yes");
+		yes = new FlxText(0, 0, 0, "是");
 		yes.setFormat("VCR OSD Mono", 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		yes.x = FlxG.width / 2 - yes.width / 2 - 150;
 		yes.y = promptText.y + 200;
@@ -150,7 +150,7 @@ class RequestSubstate extends MusicBeatSubstate {
 		add(yesBg);
 		add(yes);
 
-		no = new FlxText(0, 0, 0, "No");
+		no = new FlxText(0, 0, 0, "否");
 		no.setFormat("VCR OSD Mono", 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		no.x = FlxG.width / 2 - no.width / 2 + 150;
 		no.y = yes.y;
@@ -167,7 +167,7 @@ class RequestSubstate extends MusicBeatSubstate {
 		add(no);
 
 		if (!disableTrusting) {
-			add(trust = new Option("Trust this source", "If checked, you will no longer be asked\nto accept links from this domain.", () -> {
+			add(trust = new Option("信任此来源", "勾选后，以后访问该域名的链接\n将不再询问。", () -> {
 				trust.checked = !trust.checked;
 			}, null, 0, 500, isURLTrusted(url)));
 			trust.scrollFactor.set(0, 0);

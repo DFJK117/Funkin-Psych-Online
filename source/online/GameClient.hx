@@ -73,7 +73,7 @@ class GameClient {
 			onJoin(exc);
 			LoadingScreen.toggle(false);
 			trace(exc.details());
-			Alert.alert("Failed to connect!", exc.details());
+			Alert.alert("连接失败！", exc.details());
 		});
     }
 
@@ -103,14 +103,14 @@ class GameClient {
 			onJoin(exc);
 			LoadingScreen.toggle(false);
 			trace(exc.details());
-			Alert.alert("Failed to connect!", exc.toString());
+			Alert.alert("连接失败！", exc.toString());
 		});
     }
 
 	private static function _onJoin(err:Error, room:Room<GameRoom>, isHost:Bool, address:String, ?onJoin:(err:Dynamic)->Void) {
 		if (err != null) {
 			trace(err.code + " - " + err.message);
-			Alert.alert("Couldn't connect!", "JOIN ERROR: " + ShitUtil.prettyStatus(err.code) + "\n" + ShitUtil.readableError(err.message));
+			Alert.alert("连接失败！", "加入错误：" + ShitUtil.prettyStatus(err.code) + "\n" + ShitUtil.readableError(err.message));
 			onJoin(err);
 			leaveRoom();
 			LoadingScreen.toggle(false);
@@ -132,7 +132,7 @@ class GameClient {
 			Sys.println("Room.onError: " + code + " - " + e);
 			if (code == 524)
 				return;
-			Alert.alert("Room error!", "room.onError: " + ShitUtil.prettyStatus(code) + "\n" + ShitUtil.readableError(e));
+			Alert.alert("房间错误！", "房间错误：" + ShitUtil.prettyStatus(code) + "\n" + ShitUtil.readableError(e));
 		}
 
 		GameClient.room.onLeave += (code) -> {
@@ -156,7 +156,7 @@ class GameClient {
 			while (getPlayerSelf() == null) {
 				trace(getPlayerSelf() == null);
 				if (tries-- < 0) {
-					Alert.alert("Couldn't connect!", "Client couldn't receive server's state data!");
+					Alert.alert("连接失败！", "客户端未能接收服务器状态数据！");
 					onJoin(new Error(-1, 'no state data'));
 					leaveRoom();
 					LoadingScreen.toggle(false);
@@ -193,7 +193,7 @@ class GameClient {
 		var reconnectToken = room.reconnectionToken;
 
 		trace("Reconnecting with Token: " + reconnectToken);
-		Alert.alert("Reconnecting...");
+		Alert.alert("正在重新连接……");
 
 		try {
 			GameClient.room.teardown();
@@ -216,7 +216,7 @@ class GameClient {
 					if (err != null) {
 						trace(err.code + " - " + err.message);
 						Waiter.putPersist(() -> {
-							Alert.alert("Couldn't reconnect!", "RECONNECT ERROR: " + ShitUtil.prettyStatus(err.code) + " - " + ShitUtil.readableError(err.message));
+							Alert.alert("重新连接失败！", "重连错误：" + ShitUtil.prettyStatus(err.code) + " - " + ShitUtil.readableError(err.message));
 						});
 						leaveRoom();
 						return;
@@ -230,13 +230,13 @@ class GameClient {
 							addListeners();
 						sendPending();
 						Waiter.putPersist(() -> {
-							Alert.alert("Reconnected!");
+							Alert.alert("已重新连接！");
 						});
 					};
 				}
 				catch (exc) {
 					Waiter.putPersist(() -> {
-						Alert.alert("Critically failed to reconnect!", "RECONNECT ERROR: " + ShitUtil.prettyStatus(err.code) + " - " + ShitUtil.readableError(err.message));
+						Alert.alert("重新连接彻底失败！", "重连错误：" + ShitUtil.prettyStatus(err.code) + " - " + ShitUtil.readableError(err.message));
 					});
 					leaveRoom();
 				}
@@ -284,7 +284,7 @@ class GameClient {
 		
 		Waiter.putPersist(() -> {
 			if (reason != null)
-				Alert.alert("Disconnected!", reason.trim() != "" ? reason : null);
+				Alert.alert("已断开连接！", reason.trim() != "" ? reason : null);
 			trace("Leaving the Room, Reason: " + reason);
 
 			FlxG.autoPause = ClientPrefs.data.autoPause;

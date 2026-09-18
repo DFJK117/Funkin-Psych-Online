@@ -99,12 +99,12 @@ class ProfileBox extends FlxSpriteGroup {
 			if (profileData != null) {
 				if (autoUpdateThings) {
 					if (isSelf)
-						text.text = "Welcome, " + user + "!";
+						text.text = "欢迎，" + user + "！";
 					else
 						text.text = user;
-					desc.text = "Points: " + FlxStringUtil.formatMoney(profileData.points ?? 0, false);
-					desc.text += "\nRank: " + ShitUtil.toOrdinalNumber(profileData.rank);
-					desc.text += "\nAvg. Accuracy: " + FlxMath.roundDecimal((profileData.avgAccuracy * 100), 2) + "%";
+					desc.text = "积分：" + FlxStringUtil.formatMoney(profileData.points ?? 0, false);
+					desc.text += "\n排名：" + ShitUtil.toOrdinalNumber(profileData.rank);
+					desc.text += "\n平均准确率：" + FlxMath.roundDecimal((profileData.avgAccuracy * 100), 2) + "%";
 				}
 
 				Thread.run(() -> {
@@ -134,11 +134,11 @@ class ProfileBox extends FlxSpriteGroup {
 			else {
 				if (autoUpdateThings) {
 					if (isSelf) {
-						text.text = "Not logged in!";
-						desc.text = "(Click to register)";
+						text.text = "未登录！";
+						desc.text = "（点击注册）";
 					}
 					else
-						text.text = "User not found!";
+						text.text = "未找到该用户！";
 					cardHeight = 50;
 				}
 			}

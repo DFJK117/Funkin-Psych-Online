@@ -52,7 +52,7 @@ class FindRoomState extends MusicBeatState {
 			refreshRooms(false);
 		}, 0);
 
-		tip = new FlxText(0, 0, 0, 'ACCEPT - Enter selected room.');
+		tip = new FlxText(0, 0, 0, '确认键 - 进入选中的房间。');
 		tip.setFormat("VCR OSD Mono", 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tip.scrollFactor.set(0, 0);
 		tip.screenCenter(X);
@@ -65,7 +65,7 @@ class FindRoomState extends MusicBeatState {
 		add(tipBg);
 		add(tip);
 
-		emptyMessage = new FlxText(0, 0, FlxG.width, 'No available rooms found!');
+		emptyMessage = new FlxText(0, 0, FlxG.width, '未找到可用的房间！');
 		emptyMessage.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		emptyMessage.scrollFactor.set(0, 0);
 		emptyMessage.screenCenter();
@@ -114,7 +114,7 @@ class FindRoomState extends MusicBeatState {
 				items.clear();
 
                 if (err != null) {
-					Alert.alert("Couldn't connect!", "ERROR: " + ShitUtil.prettyStatus(err.code) + " - " + err.message + (GameClient.serverAddress.endsWith(".onrender.com") ? "\nTry again in a few minutes! The server is probably restarting!" : ""));
+					Alert.alert("连接失败！", "错误：" + ShitUtil.prettyStatus(err.code) + " - " + err.message + (GameClient.serverAddress.endsWith(".onrender.com") ? "\n请几分钟后再试！服务器可能正在重启！" : ""));
                     return;
                 }
 
@@ -189,7 +189,7 @@ class RoomBox extends FlxSpriteGroup {
 		ping.setPosition(10, title.y);
 		add(ping);
 
-		detailsTxt = new FlxText(0, 0, bg.width - 20, '> Enter: $code < ');
+		detailsTxt = new FlxText(0, 0, bg.width - 20, '> 房间码：$code <');
 		detailsTxt.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, CENTER);
 		detailsTxt.setPosition(10, title.y + title.height + 20);
 		add(detailsTxt);

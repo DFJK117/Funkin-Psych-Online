@@ -63,10 +63,10 @@ class Util {
 				NetworkClient.room.send('inviteplayertoroom', daUsername);
 			}
 			else
-				Alert.alert('Failed to connect to the Network!');
+				Alert.alert('连接社交网络失败！');
 		}
 		else {
-			Alert.alert('You\'re not in a room!');
+			Alert.alert('你不在任何房间中！');
 		}
 	}
 

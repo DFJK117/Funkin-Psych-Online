@@ -14,14 +14,14 @@ class ChatBox extends FlxTypedSpriteGroup<FlxSprite> {
 		if (v) {
 			prevMouseVisibility = FlxG.mouse.visible;
 			FlxG.mouse.visible = true;
-			typeTextHint.text = "(Type something to input the message, ACCEPT to send)";
+			typeTextHint.text = "（输入内容，按确认键发送）";
 			typeBg.colorTransform.alphaOffset = 0;
 			typeBg.scale.x = FlxG.width;
 			ClientPrefs.toggleVolumeKeys(false);
 		}
 		else {
 			FlxG.mouse.visible = prevMouseVisibility;
-			typeTextHint.text = "(Press TAB to open chat!)";
+			typeTextHint.text = "（按 TAB 打开聊天！）";
 			typeBg.colorTransform.alphaOffset = -100;
 			typeBg.scale.x = Std.int(bg.width);
 			ClientPrefs.toggleVolumeKeys(true);
@@ -42,7 +42,7 @@ class ChatBox extends FlxTypedSpriteGroup<FlxSprite> {
 	static var savedMessages:Array<Dynamic> = [];
 	var dwnMsgToClick:Map<NoteSkinDownloadMessage, ()->Void> = new Map<NoteSkinDownloadMessage, ()->Void>();
 
-	var initMessage:String = "See /help for the list of commands!";
+	var initMessage:String = "输入 /help 查看命令列表！";
 
 	public static function addMessage(raw:Dynamic, ?noSave:Bool = false) {
 		if (!noSave) {
@@ -111,7 +111,7 @@ class ChatBox extends FlxTypedSpriteGroup<FlxSprite> {
 		bg.alpha = 0.6;
         add(bg);
 
-		typeTextHint = new FlxText(0, 0, bg.width, "(Type something to input the message, ACCEPT to send)");
+		typeTextHint = new FlxText(0, 0, bg.width, "（输入内容，按确认键发送）");
 		typeTextHint.setFormat("VCR OSD Mono", 16, FlxColor.WHITE);
 		typeTextHint.alpha = 0.6;
 
@@ -131,12 +131,12 @@ class ChatBox extends FlxTypedSpriteGroup<FlxSprite> {
 				invalidCount++;
 
 			if (StringTools.startsWith(url, "https://drive.google.com/drive/folders/")) {
-				addMessage("Mod Issue for: " + mod + ": Can't download GDrive folders!");
+				addMessage("MOD 问题：" + mod + "：无法下载 Google Drive 文件夹！");
 			}
 		}
 
 		if (invalidCount > 0) {
-			addMessage('WARNING: ' + invalidCount + ' of your mods do not have a valid URL set!', true);
+			addMessage('警告：' + invalidCount + ' 个 MOD 未设置有效的链接！', true);
 		}
 
 		for (msg in savedMessages) {
@@ -322,8 +322,8 @@ class ChatMessage extends FlxText {
 }
 
 class NoteSkinDownloadMessage extends ChatMessage {
-	static final MESSAGE:String = "There's an opponent note skin available! Click here to download it.";
-	static final DOWNLOAD_MSG_PART:String = 'Click here to download it.';
+	static final MESSAGE:String = "有可用的对手按键皮肤！点击此处下载。";
+	static final DOWNLOAD_MSG_PART:String = '点击此处下载。';
 
 	public function new(fieldWidth:Float = 0) {
 		super(fieldWidth, {content: MESSAGE, hue: null, date: null});
