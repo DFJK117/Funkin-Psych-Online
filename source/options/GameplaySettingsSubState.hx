@@ -29,6 +29,14 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'ghostTapping',
 			'bool');
 		addOption(option);
+
+		// Doubao Engine: keyboard input compatibility / low-latency mode
+		var option:Option = new Option('Input Mode',
+			'Doubao Low-Latency: physical edge detection, never drops fast double taps or multi-key chords (recommended).\n0.7.3 / 0.6.3: original frame-gated Psych input, kept for compatibility.',
+			'inputMode',
+			'string',
+			['Doubao Low-Latency', '0.7.3', '0.6.3']);
+		addOption(option);
 		
 		var option:Option = new Option('Auto Pause',
 			"If checked, the game automatically pauses if the screen isn't on focus.",

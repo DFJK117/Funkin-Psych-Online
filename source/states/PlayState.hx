@@ -5238,12 +5238,34 @@ class PlayState extends MusicBeatState
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
+
+	// Doubao Engine: physical key-edge latch for the low-latency input mode.
+	// Independent of flixel's per-frame JUST_PRESSED so chords / same-frame double taps are not dropped.
+	private var physKeysDown:Map<FlxKey,Bool> = new Map();
 	
 	private function onKeyPress(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
-		if (!controls.controllerMode && FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
+
+		// Doubao Engine: selectable keyboard input model (Options -> Gameplay -> Input Mode)
+		var inputMode:String = ClientPrefs.data.inputMode;
+		if (inputMode == '0.7.3' || inputMode == '0.6.3')
+		{
+			// Original Psych 0.6.x / 0.7.x behaviour: flixel per-frame JUST_PRESSED gate.
+			if (!controls.controllerMode && FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
+			return;
+		}
+
+		// Doubao Low-Latency (default): fire on the real physical UP->DOWN edge.
+		// A genuine press-release-press inside one frame counts twice (no dropped taps), while
+		// OS key-repeat (KEY_DOWN repeating with no KEY_UP in between) stays ignored (no auto-hit).
+		if (controls.controllerMode || eventKey == NONE)
+			return;
+
+		var wasPhysicallyDown:Bool = physKeysDown.get(eventKey) == true;
+		physKeysDown.set(eventKey, true);
+		if (!wasPhysicallyDown) keyPressed(key);
 	}
 
 	@:unreflective
@@ -5337,6 +5359,7 @@ class PlayState extends MusicBeatState
 	private function onKeyRelease(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
+		physKeysDown.remove(eventKey); // Doubao Engine: release the physical-edge latch
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
 		//trace('Pressed: ' + eventKey);
 
@@ -5384,6 +5407,18 @@ class PlayState extends MusicBeatState
 	@:unreflective
 	private function keysCheck():Void
 	{
+		// Doubao Engine: every frame, reconcile the physical-edge latch with flixel's real key
+		// state, so a missed KEY_UP (alt-tab / focus loss / OS hiccup) can never stick a key held.
+		var stalePhysKeys:Array<FlxKey> = [];
+		for (physKey in physKeysDown.keys())
+		{
+			if (!FlxG.keys.checkStatus(physKey, flixel.input.FlxInputState.PRESSED)
+				&& !FlxG.keys.checkStatus(physKey, flixel.input.FlxInputState.JUST_PRESSED))
+				stalePhysKeys.push(physKey);
+		}
+		for (physKey in stalePhysKeys)
+			physKeysDown.remove(physKey);
+
 		if (!checkCanInput())
 			return;
 

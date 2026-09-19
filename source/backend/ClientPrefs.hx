@@ -41,6 +41,10 @@ class SaveVariables {
 	public var arrowRGBPixelMap:Map<String, Array<Array<FlxColor>>> = ClientPrefs.genArrowColorsExtraMap(true);
 
 	public var ghostTapping:Bool = true;
+	// Doubao Engine: keyboard input model. 'Doubao Low-Latency' (default) uses physical
+	// edge detection so fast double-taps / multi-key chords are never dropped; '0.7.3' / '0.6.3'
+	// keep the original flixel per-frame JUST_PRESSED gate for compatibility.
+	public var inputMode:String = 'Doubao Low-Latency';
 	public var timeBarType:String = 'Time Left';
 	public var scoreZoom:Bool = true;
 	public var noReset:Bool = false;
