@@ -5412,8 +5412,7 @@ class PlayState extends MusicBeatState
 		var stalePhysKeys:Array<FlxKey> = [];
 		for (physKey in physKeysDown.keys())
 		{
-			if (!FlxG.keys.checkStatus(physKey, flixel.input.FlxInputState.PRESSED)
-				&& !FlxG.keys.checkStatus(physKey, flixel.input.FlxInputState.JUST_PRESSED))
+			if (!FlxG.keys.anyPressed([physKey]))
 				stalePhysKeys.push(physKey);
 		}
 		for (physKey in stalePhysKeys)
